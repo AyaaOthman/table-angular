@@ -1,0 +1,87 @@
+<div class="table-container">
+  <!-- Table Header -->
+  <div class="table-header">
+    <h2>Data Table</h2>
+    <div class="selected-info">
+      <span *ngIf="getSelectedCount() > 0">
+        {{ getSelectedCount() }} item(s) selected
+      </span>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="table-wrapper">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th class="checkbox-column">
+            <input 
+              type="checkbox" 
+              [checked]="areAllRowsSelected()"
+              [indeterminate]="areSomeRowsSelected()"
+              (change)="toggleAllRows()"
+              class="header-checkbox"
+            >
+          </th>
+          <th>Name</th>
+          <th>City</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of getCurrentPageData(); let i = index" 
+            [class.selected]="row.selected"
+            [class.even]="i % 2 === 0">
+          <td class="checkbox-column">
+            <input 
+              type="checkbox" 
+              [checked]="row.selected"
+              (change)="toggleRow(row)"
+              class="row-checkbox"
+            >
+          </td>
+          <td>{{ row.name }}</td>
+          <td>{{ row.city }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination-container">
+    <div class="pagination-info">
+      <span>
+        Page {{ currentPage }} of {{ totalPages }}
+        ({{ tableData.length }} total items)
+      </span>
+    </div>
+    
+    <div class="pagination-controls">
+      <button 
+        class="pagination-btn" 
+        [disabled]="currentPage === 1"
+        (click)="goToPreviousPage()"
+      >
+        Previous
+      </button>
+      
+      <div class="page-numbers">
+        <button 
+          *ngFor="let page of [].constructor(totalPages); let i = index"
+          class="page-btn"
+          [class.active]="currentPage === i + 1"
+          (click)="goToPage(i + 1)"
+        >
+          {{ i + 1 }}
+        </button>
+      </div>
+      
+      <button 
+        class="pagination-btn" 
+        [disabled]="currentPage === totalPages"
+        (click)="goToNextPage()"
+      >
+        Next
+      </button>
+    </div>
+  </div>
+</div>
