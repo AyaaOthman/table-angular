@@ -1,10 +1,10 @@
 <div class="table-container">
   <!-- Table Header -->
   <div class="table-header">
-    <h2>Data Table</h2>
+    <h2>Users Table</h2>
     <div class="selected-info">
-      <span *ngIf="getSelectedCount() > 0">
-        {{ getSelectedCount() }} item(s) selected
+      <span *ngIf="selectedUsers.length > 0">
+        {{ selectedUsers.length }} user(s) selected
       </span>
     </div>
   </div>
@@ -23,12 +23,13 @@
               class="header-checkbox"
             >
           </th>
+          <th>Avatar</th>
           <th>Name</th>
-          <th>City</th>
+          <th>Email</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let row of getCurrentPageData(); let i = index" 
+        <tr *ngFor="let row of tableData; let i = index" 
             [class.selected]="row.selected"
             [class.even]="i % 2 === 0">
           <td class="checkbox-column">
@@ -39,8 +40,11 @@
               class="row-checkbox"
             >
           </td>
+          <td>
+            <img [src]="row.avatar" [alt]="row.name" width="40" height="40" style="border-radius: 50%; object-fit: cover;">
+          </td>
           <td>{{ row.name }}</td>
-          <td>{{ row.city }}</td>
+          <td>{{ row.email }}</td>
         </tr>
       </tbody>
     </table>
@@ -51,7 +55,7 @@
     <div class="pagination-info">
       <span>
         Page {{ currentPage }} of {{ totalPages }}
-        ({{ tableData.length }} total items)
+        ({{ totalItems }} total users)
       </span>
     </div>
     
